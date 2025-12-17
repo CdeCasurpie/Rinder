@@ -1,0 +1,13 @@
+# python
+.venv/
+__pycache__/
+*.pyc
+instance/
+.env
+.env.*
+*.sqlite3
+database.db
+*.log
+*.pot
+*.mo
+
