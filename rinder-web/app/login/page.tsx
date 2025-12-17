@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { login, register } from '@/services/auth';
+import { getAssetPath } from '@/lib/utils';
 import type { LoginCredentials, RegisterData } from '@/types';
 import '@/styles/login_register.css';
 
@@ -104,7 +105,7 @@ export default function LoginPage() {
     }}>
       <div className="logo">
         <Image 
-          src="/assets/logos/logoFuccia.png" 
+          src={getAssetPath("/assets/logos/logoFuccia.png")} 
           alt="Rinder" 
           width={86} 
           height={86}

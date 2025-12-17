@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getCurrentUser } from '@/services/auth';
 import { getProfile, updateProfile, uploadProfilePhoto } from '@/services/profiles';
+import { getAssetPath } from '@/lib/utils';
 import type { Profile } from '@/types';
 
 export default function ProfileSection() {
@@ -56,8 +57,8 @@ export default function ProfileSection() {
   }
 
   const photoUrl = profile.ruta_photo
-    ? `/assets/profilePhotos/${profile.id}/${profile.ruta_photo}`
-    : '/assets/images/fondo1.JPG';
+    ? getAssetPath(`/assets/profilePhotos/${profile.id}/${profile.ruta_photo}`)
+    : getAssetPath('/assets/images/fondo1.JPG');
 
   return (
     <>

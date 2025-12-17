@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/services/auth';
+import { getAssetPath } from '@/lib/utils';
 
 interface SidebarProps {
   activeSection?: string;
@@ -32,7 +33,7 @@ export default function Sidebar({ activeSection = 'Matches', onSectionChange }: 
       <div>
         <div className="title">
           <Image 
-            src="/assets/logos/logoTitle.png" 
+            src={getAssetPath("/assets/logos/logoTitle.png")} 
             alt="Rinder" 
             width={200} 
             height={62}

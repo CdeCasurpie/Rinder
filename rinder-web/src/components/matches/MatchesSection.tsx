@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getRandomMatch, checkMatch } from '@/services/profiles';
+import { getAssetPath } from '@/lib/utils';
 import type { Match } from '@/types';
 
 export default function MatchesSection() {
@@ -49,15 +50,15 @@ export default function MatchesSection() {
     return <div>Cargando...</div>;
   }
 
-  const photoUrl = currentMatch.ruta_photo 
-    ? `/assets/profilePhotos/${currentMatch.user_id}/${currentMatch.ruta_photo}`
-    : '/assets/images/fondo1.JPG'; // placeholder
+  const photoSrc = currentMatch?.ruta_photo
+    ? getAssetPath(`/assets/profilePhotos/${currentMatch.user_id}/${currentMatch.ruta_photo}`)
+    : getAssetPath('/assets/images/fondo1.JPG'); // placeholder
 
   return (
     <>
       <div className="left-matches">
         <button id="like" onClick={handleLike}>
-          <Image src="/assets/icons/c_rosado.PNG" alt="Acepta" width={80} height={80} />
+          <Image src={getAssetPath("/assets/icons/c_rosado.PNG")} alt="Acepta" width={80} height={80} />
         </button>
       </div>
 
@@ -65,7 +66,7 @@ export default function MatchesSection() {
         <div className="profile-photo-matches" id="container_image">
           <Image 
             id="foto_perfil"
-            src={photoUrl}
+            src={photoSrc}
             alt="Foto de perfil"
             width={425}
             height={425}
@@ -87,7 +88,7 @@ export default function MatchesSection() {
         <button id="equis" onClick={handleReject}>
           <Image 
             id="equis_image" 
-            src="/assets/icons/equis.PNG" 
+            src={getAssetPath("/assets/icons/equis.PNG")} 
             alt="Rechaza" 
             width={80} 
             height={80}
