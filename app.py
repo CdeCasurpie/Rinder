@@ -27,8 +27,8 @@ from flask_bcrypt import Bcrypt
 # ========================================================================================================
 
 app = Flask(__name__)
-app.secret_key = 'pneumonoultramicroscopicsilicovolcanoconiosis';
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3028222024@localhost:5432/postgres'
+app.secret_key = 'pneumonoultramicroscopicsilicovolcanoconiosis'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -290,6 +290,11 @@ class Chat(db.Model):
     
 
 
+
+
+# create all
+with app.app_context():
+    db.create_all()
 
 
 
