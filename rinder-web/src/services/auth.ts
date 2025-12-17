@@ -5,15 +5,37 @@
 
 import type { LoginCredentials, RegisterData, User, Profile } from '@/types';
 
-// Simula almacenamiento en memoria (reemplaza sessionStorage por ahora)
-let currentUser: (User & Profile) | null = null;
+const AUTH_STORAGE_KEY = 'rinder_current_user';
+
+// Función para obtener el usuario del localStorage
+function getUserFromStorage(): (User & Profile) | null {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
+}
+
+// Función para guardar el usuario en localStorage
+function saveUserToStorage(user: (User & Profile) | null): void {
+  if (typeof window === 'undefined') return;
+  
+  if (user) {
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+  } else {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+  }
+}
 
 export async function login(credentials: LoginCredentials): Promise<{ success: boolean; message?: string }> {
   return new Promise((resolve) => {
     setTimeout(() => {
       // Simula validación (siempre exitosa en mock)
       if (credentials.email_login && credentials.password_login) {
-        currentUser = {
+        const user: User & Profile = {
           id_usuario: 'mock-user-id-123',
           username: 'cesarperales',
           correo: credentials.email_login,
@@ -27,6 +49,8 @@ export async function login(credentials: LoginCredentials): Promise<{ success: b
           descripcion: 'Guapo por naturaleza, con propietaria pero sin dueña. Cesitar es libre, cesitar es amor.',
           ruta_photo: undefined,
         };
+        
+        saveUserToStorage(user);
         resolve({ success: true });
       } else {
         resolve({ success: false, message: 'Credenciales incorrectas' });
@@ -39,7 +63,7 @@ export async function register(data: RegisterData): Promise<{ success: boolean; 
   return new Promise((resolve) => {
     setTimeout(() => {
       // Simula registro exitoso
-      currentUser = {
+      const user: User & Profile = {
         id_usuario: `mock-${Date.now()}`,
         username: data.username,
         correo: data.email,
@@ -53,6 +77,8 @@ export async function register(data: RegisterData): Promise<{ success: boolean; 
         descripcion: undefined,
         ruta_photo: undefined,
       };
+      
+      saveUserToStorage(user);
       resolve({ success: true });
     }, 500);
   });
@@ -61,7 +87,7 @@ export async function register(data: RegisterData): Promise<{ success: boolean; 
 export async function logout(): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      currentUser = null;
+      saveUserToStorage(null);
       resolve();
     }, 200);
   });
@@ -70,13 +96,13 @@ export async function logout(): Promise<void> {
 export async function getCurrentUser(): Promise<(User & Profile) | null> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(currentUser);
+      resolve(getUserFromStorage());
     }, 100);
   });
 }
 
 export function isAuthenticated(): boolean {
-  return currentUser !== null;
+  return getUserFromStorage() !== null;
 }
 
 // Helper
