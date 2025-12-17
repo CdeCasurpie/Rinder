@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export',
+  basePath: '/Rinder',
   images: {
-    unoptimized: true, // Para desarrollo con mock data
+    unoptimized: true,
     remotePatterns: [],
   },
 };
